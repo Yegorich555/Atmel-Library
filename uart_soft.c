@@ -61,12 +61,12 @@ void usoft_init()
 #if USOFT_RXEN
 void usoft_listen()
 {
-	if (!usoft_rx_work && usoft_getRx() == 0) //start bit
-	{
+	if (!usoft_tx_work && !usoft_rx_work && usoft_getRx() == 0) //start bit
+	{		
 		USOFT_timerStart();
 		usoft_rx_work = 1;
 		usoft_rx_tx_byte = 0;
-		usoft_timeCount = 0;
+		usoft_timeCount = 1;
 		usoft_iBit = 0;
 	}
 }
@@ -150,7 +150,7 @@ static void txSend()
 		usoft_txSet();
 	}
 	
-	if (usoft_iBit == 10)
+	if (usoft_iBit == 10) //End parcel action
 	{
 		usoft_tx_work = 0;
 	}
@@ -201,7 +201,7 @@ static void rxReceive()
 	{
 		return;
 	}
-	if (usoft_timeCount >= 19)//todo Ibit
+	if (usoft_iBit == 8)//todo Ibit
 	{
 		rxReset();
 		if (usoft_getRx()) // successful
@@ -224,7 +224,7 @@ static void rxReceive()
 ISR(USOFT_tISR)
 {
 	USOFT_tCNT = USOFT_tCNTvalue;
-	
+
 	#if USOFT_AUTOLISTEN
 	usoft_listen();
 	#endif
