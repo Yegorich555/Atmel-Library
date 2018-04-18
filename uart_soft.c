@@ -122,8 +122,8 @@ void usoft_putBytes(unsigned char *str, uint8_t num)
 	rxReset();
 	while(num)
 	{
-	   setChar(*str++);
-	   --num;
+		setChar(*str++);
+		--num;
 	}
 }
 
@@ -148,8 +148,13 @@ static void txSend()
 	else //Stop bit
 	{
 		usoft_txSet();
+	}
+	
+	if (usoft_iBit == 10)
+	{
 		usoft_tx_work = 0;
 	}
+
 	++usoft_iBit;
 }
 #endif
