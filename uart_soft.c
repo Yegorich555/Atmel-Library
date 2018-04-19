@@ -225,16 +225,15 @@ ISR(USOFT_tISR)
 {
 	USOFT_tCNT = USOFT_tCNTvalue;
 
-	//#if USOFT_AUTOLISTEN
-	//usoft_listen();
-	//#endif
-	io_togglePortBit(PORTB, 1);
+	#if USOFT_AUTOLISTEN
+	usoft_listen();
+	#endif
+
 	++usoft_timeCount;
 	if (!(usoft_timeCount & 1)) // set mask 1 3 5 7....
 	{
 		return;
 	}
-	io_togglePortBit(PORTB, 2);
 
 	if (usoft_tx_work)
 	{
