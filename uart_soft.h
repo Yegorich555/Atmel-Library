@@ -69,7 +69,7 @@
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
 	    #define USOFT_tCNTvalue 0x83 + 3 //timer start value
 	#endif
-#elif defined (__AVR_ATmega16A__)
+#elif defined (__AVR_ATmega16A__) || defined (__AVR_ATmega8A__)
  	#define USOFT_setTIMSK() TIMSK|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
  	#define USOFT_tISR TIMER0_OVF_vect //timer interrupt vector
  	#define USOFT_tCCR TCCR0 //timer config register
@@ -77,7 +77,7 @@
 
  	#if F_CPU == 8000000 && USOFT_BAUD == 4800
  		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00)//1000 kHz timer config value
- 		#define USOFT_tCNTvalue 0x98 //timer start value
+ 		#define USOFT_tCNTvalue 0x98 + 3 //timer start value
  	#endif	
 #else
 	#warning Soft_uart with this AVR is not defined, see me *.h
