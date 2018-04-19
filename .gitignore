@@ -9,8 +9,13 @@
 # Visual Studio cache/options directory
 .vs/
 
+*.pdsprj*workspace
 *.pdsbak
 *.zip
 *.txt
 
 /stdiodemo
+*_old/
+*-old/
+
+docs*/
