@@ -1,7 +1,7 @@
 /*
- * SoftUart_Atmega16.c
+ * SoftUart_Atmega8.c
  *
- * Created: 19-Apr-18 17:08:34
+ * Created: 19-Apr-18 17:11:30
  * Author : yahor.halubchyk
  */ 
 
