@@ -66,7 +66,7 @@ void usoft_listen()
 		USOFT_timerStart();
 		usoft_rx_work = 1;
 		usoft_rx_tx_byte = 0;
-		usoft_timeCount = 1;
+		usoft_timeCount = 0;
 		usoft_iBit = 0;
 	}
 }
@@ -225,15 +225,16 @@ ISR(USOFT_tISR)
 {
 	USOFT_tCNT = USOFT_tCNTvalue;
 
-	#if USOFT_AUTOLISTEN
-	usoft_listen();
-	#endif
-
+	//#if USOFT_AUTOLISTEN
+	//usoft_listen();
+	//#endif
+	io_togglePortBit(PORTB, 1);
 	++usoft_timeCount;
 	if (!(usoft_timeCount & 1)) // set mask 1 3 5 7....
 	{
 		return;
 	}
+	io_togglePortBit(PORTB, 2);
 
 	if (usoft_tx_work)
 	{
