@@ -33,8 +33,8 @@
 
 #define io_set_(what, portName, portNumBit) (glue(what, portName) |= (1 << (portNumBit)))
 #define io_reset_(what, portName, portNumBit) (glue(what, portName) &= ~(1 << (portNumBit)))
-#define io_toggle_(what, portName, portNumBit) glue(what, portName) ^= (1 << (portNumBit)))
-#define io_change_(what, portName, portNumBit, bitValue) glue(what, portName) = ( (glue(what, portName) & ~(1 << (portNumBit)) ) | ((bitValue ? 1: 0) << (portNumBit)) )
+#define io_toggle_(what, portName, portNumBit) (glue(what, portName) ^= (1 << (portNumBit)))
+#define io_change_(what, portName, portNumBit, bitValue) (glue(what, portName) = ( (glue(what, portName) & ~(1 << (portNumBit)) ) | ((bitValue ? 1: 0) << (portNumBit)) ))
 #define io_get_(what, portName, portNumBit) (glue(what, portName) & (1 << (portNumBit)))
 
 #define io_set(what, portDef) io_set_(what, portDef)
