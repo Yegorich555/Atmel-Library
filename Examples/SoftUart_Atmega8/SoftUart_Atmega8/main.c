@@ -10,9 +10,9 @@
 #include <extensions.h>
 #include <avr/interrupt.h>
 
-#define IO_DBG_OUT D, 4
-
 //************** soft uart
+#define USOFT_IO_MEANDR D, 4
+
 #define USOFT_BAUD 4800
 #define USOFT_IO_RX D, 3
 #define USOFT_IO_TX D, 2
@@ -29,8 +29,6 @@ int main(void)
 {
 	usoft_init();
 	
-	io_set(DDR, IO_DBG_OUT);
-
 	//test RX
 	while(1)
 	{

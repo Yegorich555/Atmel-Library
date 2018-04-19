@@ -10,9 +10,9 @@
 #include <extensions.h>
 #include <avr/interrupt.h>
 
-//#define IO_DBG_OUT B, 1
-
 //************** soft uart
+#define USOFT_IO_MEANDR B, 1
+
 #define USOFT_BAUD 4800
 #define USOFT_IO_RX B, 4
 #define USOFT_IO_TX B, 3
@@ -28,8 +28,6 @@ int main(void)
 {
 	usoft_init();
 	
-	//io_set(DDR, IO_DBG_OUT1);
-
 	MCUCR &= ~(1<<ISC01) | ~(0<<ISC00);	// Trigger INT0 on rising edge
 	PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3	
 	GIMSK |= (1<<PCIE); // enable PCINT interrupt

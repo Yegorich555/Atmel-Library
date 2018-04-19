@@ -25,7 +25,9 @@
 #define str(s) xstr(s)
 #define xstr(s) #s
 
-
+#ifndef USOFT_IO_MEANDR
+#define USOFT_IO_MEANDR false
+#endif
 
 #ifndef USOFT_TXEN
 #define USOFT_TXEN true

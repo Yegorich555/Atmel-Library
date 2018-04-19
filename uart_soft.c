@@ -42,6 +42,11 @@ void usoft_init()
 	//set output
 	io_set(DDR, USOFT_IO_TX);
 	usoft_txSet();
+
+	#if USOFT_IO_MEANDR
+	io_set(DDR, USOFT_IO_MEANDR);
+	#endif
+
 	#endif
 
 	#if USOFT_RXEN
@@ -62,7 +67,7 @@ void usoft_init()
 void usoft_listen()
 {
 	if (!usoft_tx_work && !usoft_rx_work && usoft_getRx() == 0) //start bit
-	{		
+	{
 		USOFT_timerStart();
 		usoft_rx_work = 1;
 		usoft_rx_tx_byte = 0;
@@ -227,6 +232,10 @@ ISR(USOFT_tISR)
 
 	#if USOFT_AUTOLISTEN
 	usoft_listen();
+	#endif
+	
+	#if USOFT_IO_MEANDR
+	io_togglePort(USOFT_IO_MEANDR);
 	#endif
 
 	++usoft_timeCount;
