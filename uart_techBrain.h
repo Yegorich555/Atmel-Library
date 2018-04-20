@@ -65,7 +65,7 @@ void utb_init();
 */
 void utb_init2(time_s *t, portValue_s *pv, int16_t *sensorsValue[], uint8_t arrSensSize);
 
-void __utb_uart_send(unsigned char *str, uint8_t num);
+void __utb_uart_send(unsigned char *str, uint8_t num) __attribute__((weak));;
 #define UTB_UART_SEND(str, num) void __utb_uart_send(unsigned char *str, uint8_t num)
 
 void utb_byteReceived(unsigned char b);
