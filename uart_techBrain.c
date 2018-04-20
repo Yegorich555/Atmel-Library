@@ -14,7 +14,7 @@ version 1.0
 static uint8_t EEMEM _e_ownAddress = utb_defaultAddr;
 static unsigned char _ownAddress;
 
-static bool _txAnswerEn = 1;
+static uint8_t _txAnswerEn = 1;
 static uint8_t _txRepeatCount = 1;
 
 #if FLASHEND > 1024
@@ -116,7 +116,7 @@ void utb_byteReceived(unsigned char b)
 static uint8_t _getCrc(unsigned char *str)
 {
 	uint16_t crc = 0;
-	while(*str)
+	while(*str) //todo it's wrong
 	{
 		crc = (crc << 3) + *str;
 		crc = (crc << 3) + *str;
@@ -355,8 +355,8 @@ utb_cmd_e utb_getCmd()
 		if (_txAnswerEn > 0)
 		{
 			#if FLASHEND > 1024
-			if (c) _sendAnswer((unsigned char *)"Ok", 2);
-			else _sendAnswer((unsigned char *)"Er", 2);
+			if (c) _sendAnswer((unsigned char *)"\rOk\r", 4);
+			else _sendAnswer((unsigned char *)"\rEr\r", 4);
 			#else
 			if (c) _sendAnswerTiny((unsigned char *)"Ok");
 			else _sendAnswerTiny((unsigned char *)"Er");
