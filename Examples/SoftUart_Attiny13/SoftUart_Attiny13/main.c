@@ -11,7 +11,7 @@
 #include <avr/interrupt.h>
 
 //************** soft uart
-#define USOFT_IO_MEANDR B, 1
+//#define USOFT_IO_MEANDR B, 1
 
 #define USOFT_BAUD 4800
 #define USOFT_IO_RX B, 4
@@ -19,7 +19,7 @@
 #define USOFT_TXEN true
 #define USOFT_BUFFER_EN true
 #define USOFT_BUFFER_SIZE 4
-//#define USOFT_AUTOLISTEN true
+#define USOFT_AUTOLISTEN true
 #include <uart_soft.h>
 
 unsigned char myByte;
@@ -28,9 +28,9 @@ int main(void)
 {
 	usoft_init();
 	
-	MCUCR &= ~(1<<ISC01) | ~(0<<ISC00);	// Trigger INT0 on rising edge
-	PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3	
-	GIMSK |= (1<<PCIE); // enable PCINT interrupt
+	//MCUCR &= ~(1<<ISC01) | ~(0<<ISC00);	// Trigger INT0 on rising edge
+	//PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3	
+	//GIMSK |= (1<<PCIE); // enable PCINT interrupt
 
 	//test RX
 	while(1)
@@ -66,7 +66,7 @@ USOFT_ISR_newByte(b)
 	myByte = b;
 }
 
-ISR(PCINT0_vect)
-{
-   usoft_listen();
-}
+//ISR(PCINT0_vect)
+//{
+   //usoft_listen();
+//}
