@@ -78,9 +78,13 @@
  	#define USOFT_tCNT TCNT0	//timer value register
 
  	#if F_CPU == 8000000 && USOFT_BAUD == 4800
- 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00)//1000 kHz timer config value
- 		#define USOFT_tCNTvalue 0x98 + 3 //timer start value
- 	#endif	
+ 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00)//1000 kHz timer config value	 
+		#if defined (__AVR_ATmega16A__)
+		 	#define USOFT_tCNTvalue 0x98 //timer start valu
+		 #else
+			 #define USOFT_tCNTvalue 0x98 + 3//timer start value
+		#endif
+ 	#endif
 #else
 	#warning Soft_uart with this AVR is not defined, see me *.h
 	#define USOFT_setTIMSK() //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
@@ -114,7 +118,7 @@ void usoft_listen(void);
 
    #if USOFT_BUFFER_EN
 	   #ifndef USOFT_BUFFER_SIZE
-		   #warning 'USOFT_bufferSize' not defined
+		   #warning 'USOFT_BUFFER_SIZE' not defined
 		   #define USOFT_BUFFER_SIZE 15
 	   #endif
 
