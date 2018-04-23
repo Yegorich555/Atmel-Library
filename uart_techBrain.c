@@ -241,7 +241,7 @@ static utb_cmd_e _cmdSetClock(unsigned char *str)
 	utb_time->sec = 0;
 	utb_time->dayWeek = dw;
 
-	return get_address;
+	return set_clock;
 }
 
 static utb_cmd_e _cmdSendSensors()
