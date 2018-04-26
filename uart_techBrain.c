@@ -278,9 +278,9 @@ static utb_cmd_e _getCmd(unsigned char *str)
 		{
 			//v - numPort, v2 - valuePort
 			#if FLASHEND < 1024
-			_cmdChangeOutTiny(val1, str);
+			return _cmdChangeOutTiny(val1, str);
 			#else
-			_cmdChangeOut(val1, str);
+			return _cmdChangeOut(val1, str);
 			#endif
 		}
 
