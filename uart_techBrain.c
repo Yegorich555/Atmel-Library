@@ -26,6 +26,7 @@ static bool utb_iRepeater;
 
 static volatile bool utb_isNewLine = 0;
 static volatile int8_t utb_rx_counter = -1;
+static volatile int8_t utb_buf_counter = -1;
 
 #if FLASHEND > 1024
 static time_s *utb_time;
@@ -73,7 +74,7 @@ static void _setLine()
 	#if UTB_ADDING_BUFFER
 	memcpy(utb_buffer, utb_rx_buffer, utb_rx_counter);
 	#endif
-	utb_buffer[utb_rx_counter] = 0; // set end in line;
+	utb_buf_counter = utb_rx_counter;
 	_clearLine();
 	utb_isNewLine = 1;
 }
@@ -113,15 +114,16 @@ void utb_byteReceived(unsigned char b)
 	
 }
 
-static uint8_t _getCrc(unsigned char *str)
+static uint8_t _getCrc(unsigned char *str, uint8_t num)
 {
 	uint16_t crc = 0;
-	while(*str) //todo it's wrong
+	while(num)
 	{
 		crc = (crc << 3) + *str;
 		crc = (crc << 3) + *str;
 		crc = crc ^ (crc >> 8);
 		++str;
+		--num;
 	}
 	crc = (crc & 0xFF);
 	if (crc == utb_endByte)
@@ -142,7 +144,7 @@ static void _sendRepeat(unsigned char *str)
 	}
 }
 
-static void _sendAnswer(unsigned char *str, uint8_t numByte)
+static void _sendAnswer(unsigned char *str, uint8_t numBytes)
 {
 	if (_txRepeatCount < 1)	return;
 
@@ -155,14 +157,16 @@ static void _sendAnswer(unsigned char *str, uint8_t numByte)
 	*(++buf) = utb_commonAnswerAddr;
 	*(++buf) = _txRepeatCount | _txAnswerEn;
 	*(++buf) = '-'; //command - answer
-	for (uint8_t i = 0; i < numByte; ++i)	//message (values)
+	for (uint8_t i = 0; i < numBytes; ++i)	//message (values)
 	{
 		*(++buf) = str[i];
 	}
-	*first = _getCrc(first + 1);
+
+	uint8_t length = buf - first;
+	*first = _getCrc(first + 1, length);
 	*(++buf) = utb_endByte;
 
-	uint8_t length = buf - utb_buffer + 1;
+	length = buf - utb_buffer + 1;
 	for (int i = 0; i < _txRepeatCount; ++i)
 	{
 		__utb_uart_send(utb_buffer, length);
@@ -338,7 +342,7 @@ utb_cmd_e utb_getCmd()
 		return 0;
 	}
 
-	if (_getCrc(utb_buffer + i - 1) != utb_buffer[i - 2])
+	if (_getCrc(utb_buffer + i - 1, utb_buf_counter - i + 1) != utb_buffer[i - 2])
 	{
 		return 0;
 	}
