@@ -359,8 +359,11 @@ utb_cmd_e utb_getCmd()
 		if (_txAnswerEn > 0)
 		{
 			#if FLASHEND > 1024
-			if (c) _sendAnswer((unsigned char *)"\rOk\r", 4);
-			else _sendAnswer((unsigned char *)"\rEr\r", 4);
+			if(c != get_sensors)
+			{			
+				if (c) _sendAnswer((unsigned char *)"Ok", 2);
+				else _sendAnswer((unsigned char *)"Er", 2);
+			}
 			#else
 			if (c) _sendAnswerTiny((unsigned char *)"Ok");
 			else _sendAnswerTiny((unsigned char *)"Er");
