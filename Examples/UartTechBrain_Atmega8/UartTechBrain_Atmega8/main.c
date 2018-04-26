@@ -27,14 +27,19 @@ int main(void)
 {
 	usoft_init();
 
-	static int16_t	*sens[5]; //buffer sensors for testing
 	#pragma GCC diagnostic ignored "-Wint-conversion"
 	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-	sens[0] = (int16_t *)52; //5.2 
-	sens[1] = 94;
-	sens[2] = 127;
-	sens[3] = 65;
-	sens[4] = 45; 
+
+	static int16_t	*sens[5];  //buffer sensors for testing
+	int16_t dht22_hum = 45;
+	int16_t dht22_t = 201; //20.1 C
+	int16_t ds18b20_t[] = { 364, 63, -74 };
+	sens[0] = ds18b20_t;
+	sens[1] = ds18b20_t + 1;
+	sens[2] = ds18b20_t + 2;
+	sens[3] = &dht22_t;
+	sens[4] = &dht22_hum;
+
 	utb_init2(&rtcTime, &portVal, sens, 5);
 
 	utb_cmd_e cmd;
