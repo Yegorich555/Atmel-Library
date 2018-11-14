@@ -144,7 +144,9 @@ void usoft_putUInt(unsigned int v)
 		}
 	}
 	if (!go)
+	{
 		usoft_putChar(48 + v);
+	}
 	//usoft_putChar(48 + (v/10000 % 10));
 	//usoft_putChar(48 + (v/1000 % 10));
 	//usoft_putChar(48 + (v/100 % 10));
