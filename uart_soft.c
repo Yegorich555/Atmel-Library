@@ -132,6 +132,25 @@ void usoft_putBytes(unsigned char *str, uint8_t num)
 	}
 }
 
+void usoft_putUInt(unsigned int v)
+{
+	uint8_t go = 0;
+	for (unsigned int i = 10000; i >= 1; i = i / 10)
+	{
+		uint8_t digit = (v/i % 10);
+		if (go || digit) {
+			usoft_putChar(48 + digit);
+			go = 1;
+		}
+	}
+	if (!go)
+		usoft_putChar(48 + v);
+	//usoft_putChar(48 + (v/10000 % 10));
+	//usoft_putChar(48 + (v/1000 % 10));
+	//usoft_putChar(48 + (v/100 % 10));
+	//usoft_putChar(48 + (v/10 % 10));
+	//usoft_putChar(48 + (v/1 % 10));
+}
 
 static void txSend()
 {

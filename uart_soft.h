@@ -137,6 +137,7 @@ void usoft_listen(void);
 	#define USOFT_IO_TX B, 1
 	#endif
 
+	void usoft_putUInt(unsigned int v);
 	void usoft_putChar(unsigned char b);
 	void usoft_putCharf(const char b);
 	void usoft_putString(unsigned char *str);

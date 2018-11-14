@@ -8,7 +8,6 @@
 #define F_CPU 9600UL*1000
 #include <avr/io.h>
 #include <extensions.h>
-#include <avr/interrupt.h>
 
 //************** soft uart
 //#define USOFT_IO_MEANDR B, 1
@@ -23,20 +22,26 @@
 #include <uart_soft.h>
 
 unsigned char myByte;
-
 int main(void)
 {
 	usoft_init();
 	
 	//MCUCR &= ~(1<<ISC01) | ~(0<<ISC00);	// Trigger INT0 on rising edge
-	//PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3	
+	//PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3
 	//GIMSK |= (1<<PCIE); // enable PCINT interrupt
 
 	//test RX
 	while(1)
 	{
-		usoft_putStringf("test uart");
-		usoft_putCharf(0x0D); //end line
+		usoft_putStringf("test uart: "); 	usoft_putCharf(0x0D);
+		usoft_putUInt(0); 		usoft_putCharf(0x0D);
+		usoft_putUInt(10); 		usoft_putCharf(0x0D);
+		usoft_putUInt(100); 	usoft_putCharf(0x0D);
+		usoft_putUInt(101); 	usoft_putCharf(0x0D);
+		usoft_putUInt(1000); 	usoft_putCharf(0x0D);
+		usoft_putUInt(10000); 	usoft_putCharf(0x0D);
+		usoft_putUInt(65432); 	usoft_putCharf(0x0D);
+		
 		delay_ms(500);
 		break;
 	}
@@ -46,7 +51,7 @@ int main(void)
 	{
 		//while(usoft_rxCounter<3)
 		//{
-			//usoft_listen();
+		//usoft_listen();
 		//}
 
 		if (!usoft_rx_work && usoft_rxCounter)
@@ -68,5 +73,5 @@ USOFT_ISR_newByte(b)
 
 //ISR(PCINT0_vect)
 //{
-   //usoft_listen();
+//usoft_listen();
 //}
