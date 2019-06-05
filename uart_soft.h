@@ -60,16 +60,19 @@
 
 // only 8 None 1
 
-//t, ms interrupt = 1/baud*2*1000; it's 0.1041666 for 4800 (*2 because twice higher frequency)
+//t, ms interrupt = 1/baud/2*1000; it's 0.1041666 for 4800 (*2 because twice higher frequency)
 #if defined(__AVR_ATtiny13A__)// || defined(__AVR_ATtiny13__)
  	#define USOFT_setTIMSK() TIMSK0|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
  	#define USOFT_tISR TIM0_OVF_vect //timer interrupt vector
  	#define USOFT_tCCR TCCR0B //timer config register
-	#define USOFT_tCNT TCNT0	//timer value register
+	#define USOFT_tCNT TCNT0 //timer value register
 
 	#if F_CPU == 9600000 && USOFT_BAUD == 4800
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
 	    #define USOFT_tCNTvalue 0x83 + 3 //timer start value
+	#else if F_CPU == 4800000 && USOFT_BAUD == 1200
+		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //600 kHz timer config value
+		#define USOFT_tCNTvalue 0x06 + 2//timer start value	(2 is correction of accuracy for 600*2kHz output)
 	#endif
 #elif defined (__AVR_ATmega16A__) || defined (__AVR_ATmega8A__)
  	#define USOFT_setTIMSK() TIMSK|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
@@ -80,7 +83,7 @@
  	#if F_CPU == 8000000 && USOFT_BAUD == 4800
  		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00)//1000 kHz timer config value	 
 		#if defined (__AVR_ATmega16A__)
-		 	#define USOFT_tCNTvalue 0x98 //timer start valu
+		 	#define USOFT_tCNTvalue 0x98 //timer start value
 		 #else
 			 #define USOFT_tCNTvalue 0x98 + 3//timer start value
 		#endif
