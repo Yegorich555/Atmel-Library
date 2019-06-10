@@ -71,6 +71,10 @@
 	#if F_CPU == 9600000 && USOFT_BAUD == 4800
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
 	    #define USOFT_tCNTvalue 0x83 + 3 //timer start value
+	#elif F_CPU == 9600000 && USOFT_BAUD == 1200
+		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (1<<CS00) //150 kHz timer config value
+		#define USOFT_tCNTvalue 0xC2 //timer start value (1210kHz meandr)
+		#pragma message "usoft_error: 0.83%"
 	#elif F_CPU == 4800000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //600 kHz timer config value
 		#define USOFT_tCNTvalue 0x06 + 2//timer start value	(2 is correction of accuracy for 600*2kHz output)
