@@ -8,13 +8,12 @@
  
 #define F_CPU 8000UL*1000
 #define USOFT_BAUD 9600
-#define USOFT_RXEN true
-	#define USOFT_RxPortMarker 'B'
-	#define USOFT_RxPortNumber 2
-#define USOFT_TXEN false
-	//#define USOFT_TxPortMarker 'B'
-	//#define USOFT_TxPortNumber 3
 
+#define USOFT_RXEN true
+#define USOFT_IO_RX B, 4
+
+#define USOFT_TXEN true
+#define USOFT_IO_TX B, 3
 */
 
 #include <stdbool.h>
@@ -24,6 +23,22 @@
 
 #define str(s) xstr(s)
 #define xstr(s) #s
+
+#ifndef IO_DEBUG_TX //MISO in my programmer
+	#if defined(__AVR_ATtiny13A__)
+		#define IO_DEBUG_TX B, 1
+	#elif defined (__AVR_ATmega8A__)
+		#define IO_DEBUG_TX B, 4
+	#endif
+#endif
+
+#ifndef IO_DEBUG_RX //MOSI in my programmer
+	#if defined(__AVR_ATtiny13A__)
+		#define IO_DEBUG_RX B, 0
+	#elif defined (__AVR_ATmega8A__)
+		#define IO_DEBUG_RX B, 3
+	#endif
+#endif
 
 #ifndef USOFT_IO_MEANDR
 #define USOFT_IO_MEANDR false
