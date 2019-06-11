@@ -208,8 +208,10 @@ uint8_t usoft_getChar(void)
 #if USOFT_RXEN
 static void rxByteSet(uint8_t b)
 {
+	#if usoft_newByte
 	usoft_newByte(b);
-
+	#endif
+	
 	#if USOFT_BUFFER_EN
 	usoft_rxBuffer[usoft_rxCounter] = b;
 	++usoft_rxCounter;
