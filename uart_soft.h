@@ -150,7 +150,11 @@ void usoft_listen(void);
 
 	    unsigned char usoft_getChar(void);
 	#endif
-
+	
+	#ifndef USOFT_NewByteEvent_EN
+	#define USOFT_NewByteEvent_EN 0
+	#endif
+		
 	void usoft_newByte(uint8_t b) __attribute__((weak));
 	#define USOFT_ISR_newByte(b) void usoft_newByte(uint8_t b)
 #endif
