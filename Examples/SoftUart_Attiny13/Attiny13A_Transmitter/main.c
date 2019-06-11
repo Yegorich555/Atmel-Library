@@ -20,7 +20,7 @@ int main(void)
     while (1) 
     {
 		delay_ms(200);
-		usoft_putStringf("Test_parcel\r\n");
+		usoft_putStringf("Test_parcel");
     }
 }
 
