@@ -85,11 +85,11 @@ static inline void rxReset()	//break off rx
 #if USOFT_TXEN
 static void setChar(uint8_t b)
 {
+	while (usoft_tx_work);
 	usoft_iBit = 0;
 	usoft_rx_tx_byte = b;
 	usoft_timeCount = 0;
 	usoft_tx_work = 1;
-	while (usoft_tx_work);
 }
 
 void usoft_putChar(uint8_t b)
