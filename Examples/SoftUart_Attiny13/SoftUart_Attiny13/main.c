@@ -17,7 +17,7 @@
 #define USOFT_IO_TX B, 3
 #define USOFT_TXEN true
 #define USOFT_BUFFER_EN true
-#define USOFT_BUFFER_SIZE 4
+#define USOFT_BUFFER_SIZE 14
 #define USOFT_AUTOLISTEN true
 #include <uart_soft.h>
 
@@ -25,27 +25,8 @@ unsigned char myByte;
 int main(void)
 {
 	usoft_init();
+	usoft_putStringf("Test\r\n");
 	
-	//MCUCR &= ~(1<<ISC01) | ~(0<<ISC00);	// Trigger INT0 on rising edge
-	//PCMSK |= (1<<PCINT4);   // pin change mask: listen to portb, pin PB3
-	//GIMSK |= (1<<PCIE); // enable PCINT interrupt
-
-	//test RX
-	while(1)
-	{
-		usoft_putStringf("test uart: "); 	usoft_putCharf(0x0D);
-		usoft_putUInt(0); 		usoft_putCharf(0x0D);
-		usoft_putUInt(10); 		usoft_putCharf(0x0D);
-		usoft_putUInt(100); 	usoft_putCharf(0x0D);
-		usoft_putUInt(101); 	usoft_putCharf(0x0D);
-		usoft_putUInt(1000); 	usoft_putCharf(0x0D);
-		usoft_putUInt(10000); 	usoft_putCharf(0x0D);
-		usoft_putUInt(65432); 	usoft_putCharf(0x0D);
-		
-		delay_ms(500);
-		break;
-	}
-
 	//test TX
 	while(1)
 	{
@@ -56,12 +37,15 @@ int main(void)
 
 		if (!usoft_rx_work && usoft_rxCounter)
 		{
-			delay_ms(500);
-			usoft_putChar(usoft_rxBuffer[0]);
-			usoft_putChar(usoft_rxBuffer[1]);
-			usoft_putChar(usoft_rxBuffer[2]);
-			usoft_putChar(usoft_rxCounter);
-			usoft_rxCounter = 0;
+			delay_ms(50);
+			if (!usoft_rx_work && usoft_rxCounter)
+			{
+				for (uint8_t i=0;i<usoft_rxCounter;++i)
+				{
+					usoft_putChar(usoft_rxBuffer[i]);
+				}
+				usoft_rxCounter = 0;
+			}
 		}
 	}
 }

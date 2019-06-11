@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "SoftUart_Attiny13", "SoftUart_Attiny13\SoftUart_Attiny13.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Attiny13A_Transmitter", "Attiny13A_Transmitter\Attiny13A_Transmitter.cproj", "{14E44E03-1C61-426C-82B7-5673F2867F6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -15,6 +17,10 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{14E44E03-1C61-426C-82B7-5673F2867F6F}.Debug|AVR.ActiveCfg = Debug|AVR
+		{14E44E03-1C61-426C-82B7-5673F2867F6F}.Debug|AVR.Build.0 = Debug|AVR
+		{14E44E03-1C61-426C-82B7-5673F2867F6F}.Release|AVR.ActiveCfg = Release|AVR
+		{14E44E03-1C61-426C-82B7-5673F2867F6F}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
