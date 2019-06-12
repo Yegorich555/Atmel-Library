@@ -43,8 +43,8 @@ void usoft_init()
 	io_set(DDR, USOFT_IO_TX);
 	usoft_txSet();
 
-	#if USOFT_IO_MEANDR
-	io_set(DDR, USOFT_IO_MEANDR);
+	#if USOFT_IO_MEANDER
+	io_set(DDR, USOFT_IO_MEANDER);
 	#endif
 
 	#endif
@@ -208,8 +208,8 @@ uint8_t usoft_getChar(void)
 #if USOFT_RXEN
 static void rxByteSet(uint8_t b)
 {
-	#if USOFT_NewByteEvent_EN 
-		usoft_newByte(b);
+	#if USOFT_NewByteEvent_EN
+	usoft_newByte(b);
 	#endif
 	
 	#if USOFT_BUFFER_EN
@@ -252,13 +252,13 @@ static void rxReceive()
 ISR(USOFT_tISR)
 {
 	USOFT_tCNT = USOFT_tCNTvalue;
-
-	#if USOFT_AUTOLISTEN
-	usoft_listen();
+	
+	#if USOFT_IO_MEANDER
+	io_togglePort(USOFT_IO_MEANDER);
 	#endif
 	
-	#if USOFT_IO_MEANDR
-	io_togglePort(USOFT_IO_MEANDR);
+	#if USOFT_AUTOLISTEN
+	usoft_listen();
 	#endif
 
 	++usoft_timeCount;
@@ -266,7 +266,7 @@ ISR(USOFT_tISR)
 	{
 		return;
 	}
-
+	
 	if (usoft_tx_work)
 	{
 		#if USOFT_TXEN

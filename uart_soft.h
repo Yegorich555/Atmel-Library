@@ -40,8 +40,8 @@
 	#endif
 #endif
 
-#ifndef USOFT_IO_MEANDR
-#define USOFT_IO_MEANDR false
+#ifndef USOFT_IO_MEANDER
+#define USOFT_IO_MEANDER false
 #endif
 
 #ifndef USOFT_TXEN
@@ -76,7 +76,7 @@
 // only 8 None 1
 
 //t, ms interrupt = 1/baud/2*1000; it's 0.1041666 for 4800 (*2 because twice higher frequency)
-//1200Baud = 1200kHz frequency of meandr
+//1200Baud = 1200kHz frequency of meander
 #if defined(__AVR_ATtiny13A__)// || defined(__AVR_ATtiny13__)
  	#define USOFT_setTIMSK() TIMSK0|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
  	#define USOFT_tISR TIM0_OVF_vect //timer interrupt vector
@@ -85,16 +85,16 @@
 
 	#if F_CPU == 9600000 && USOFT_BAUD == 4800
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
-	    #define USOFT_tCNTvalue 0x83 + 7 //timer start value (4800kHz meandr)
+	    #define USOFT_tCNTvalue 0x83 + 7 //timer start value (4800kHz meander)
 	#elif F_CPU == 9600000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (1<<CS00) //150 kHz timer config value
-		#define USOFT_tCNTvalue 0xC2 + 2 //timer start value (1210kHz meandr)
+		#define USOFT_tCNTvalue 0xC2 + 2 //timer start value (1210kHz meander)
 	#elif F_CPU == 4800000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //600 kHz timer config value
-		#define USOFT_tCNTvalue 0x1C //timer start value (1200kHz meandr)
+		#define USOFT_tCNTvalue 0x1C //timer start value (1200kHz meander)
 	#elif F_CPU == 600000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (0<<CS01) | (1<<CS00) //600 kHz timer config value
-		#define USOFT_tCNTvalue 0x30 //timer start value (1197kHz meandr)
+		#define USOFT_tCNTvalue 0x30 //timer start value (1197kHz meander)
 	#endif
 #elif defined (__AVR_ATmega16A__) || defined (__AVR_ATmega8A__)
  	#define USOFT_setTIMSK() TIMSK|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
