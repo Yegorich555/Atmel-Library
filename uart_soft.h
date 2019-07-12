@@ -83,7 +83,10 @@
  	#define USOFT_tCCR TCCR0B //timer config register
 	#define USOFT_tCNT TCNT0 //timer value register
 
-	#if F_CPU == 9600000 && USOFT_BAUD == 4800
+	#if F_CPU == 9600000 && USOFT_BAUD == 9600
+		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
+		#define USOFT_tCNTvalue 0xC1 + 7//timer start value (9600kHz meander)
+	#elif F_CPU == 9600000 && USOFT_BAUD == 4800
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
 	    #define USOFT_tCNTvalue 0x83 + 7 //timer start value (4800kHz meander)
 	#elif F_CPU == 9600000 && USOFT_BAUD == 1200
