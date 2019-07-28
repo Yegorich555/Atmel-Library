@@ -73,6 +73,10 @@
 #define USOFT_BAUD 4800
 #endif //
 
+#ifndef USOFT_tCorrection //this value required because timer works fine but setPort instructions delay inside timer depends on many reasons
+#define USOFT_tCorrection 0
+#endif
+
 // only 8 None 1
 
 //t, ms interrupt = 1/baud/2*1000; it's 0.1041666 for 4800 (*2 because twice higher frequency)
@@ -85,19 +89,19 @@
 
 	#if F_CPU == 9600000 && USOFT_BAUD == 9600
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
-		#define USOFT_tCNTvalue 0xC1 + 7//timer start value (9600kHz meander)
+		#define USOFT_tCNTvalue 0xC1 + 7 + USOFT_tCorrection//timer start value (9600kHz meander)
 	#elif F_CPU == 9600000 && USOFT_BAUD == 4800
 	    #define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //1200 kHz timer config value
-	    #define USOFT_tCNTvalue 0x83 + 7 //timer start value (4800kHz meander)
+	    #define USOFT_tCNTvalue 0x83 + 7 + USOFT_tCorrection //timer start value (4800kHz meander)
 	#elif F_CPU == 9600000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (1<<CS00) //150 kHz timer config value
-		#define USOFT_tCNTvalue 0xC2 + 2 //timer start value (1210kHz meander)
+		#define USOFT_tCNTvalue 0xC2 + 2 + USOFT_tCorrection //timer start value (1210kHz meander)
 	#elif F_CPU == 4800000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00) //600 kHz timer config value
-		#define USOFT_tCNTvalue 0x1C //timer start value (1200kHz meander)
+		#define USOFT_tCNTvalue 0x1C + USOFT_tCorrection //timer start value (1200kHz meander)
 	#elif F_CPU == 600000 && USOFT_BAUD == 1200
 		#define USOFT_tCCRvalue (0<<CS02) | (0<<CS01) | (1<<CS00) //600 kHz timer config value
-		#define USOFT_tCNTvalue 0x30 //timer start value (1197kHz meander)
+		#define USOFT_tCNTvalue 0x30 + USOFT_tCorrection //timer start value (1197kHz meander)
 	#endif
 #elif defined (__AVR_ATmega16A__) || defined (__AVR_ATmega8A__)
  	#define USOFT_setTIMSK() TIMSK|= (1<<TOIE0) //TIMSK0|= (1<<TOIE0); //Enable inerrupt by timer0
@@ -108,9 +112,9 @@
  	#if F_CPU == 8000000 && USOFT_BAUD == 4800
  		#define USOFT_tCCRvalue (0<<CS02) | (1<<CS01) | (0<<CS00)//1000 kHz timer config value	 
 		#if defined (__AVR_ATmega16A__)
-		 	#define USOFT_tCNTvalue 0x98 //timer start value
+		 	#define USOFT_tCNTvalue 0x98 + USOFT_tCorrection //timer start value
 		 #else
-			 #define USOFT_tCNTvalue 0x98 + 3//timer start value
+			 #define USOFT_tCNTvalue 0x98 + 3 + USOFT_tCorrection//timer start value
 		#endif
  	#endif
 #else
